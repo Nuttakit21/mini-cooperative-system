@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "farjCgg1zEY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\nutta\\MiniCooperativeSystem\\src\\MiniCoop.Api\\MiniCoop.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nutta\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.11\\microsoft.aspnetcore.openapi.9.0.11.nupkg.sha512",
+    "C:\\Users\\nutta\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
