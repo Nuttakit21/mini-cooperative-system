@@ -1,0 +1,26 @@
+## .NET build
+bin/
+obj/
+
+## Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## ASP.NET Core secrets
+appsettings.Development.json
+appsettings.Production.json
+
+## Logs
+*.log
+logs/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## IDE
+.vscode/
+.idea/

@@ -1,0 +1,50 @@
+﻿@page "/login"
+@layout EmptyLayout
+@using MiniCoop.Web.Shared
+@using Radzen
+@using Radzen.Blazor
+
+<div class="login-full-page">
+    <div class="login-visual-side">
+        <div class="visual-overlay">
+            <div class="visual-content">
+                <RadzenIcon Icon="account_balance" Style="font-size: 6rem; color: #3b82f6; margin-bottom: 2rem;" />
+                <h1>MiniCoop<br />Elite</h1>
+                <p>ก้าวล้ำนำสมัยด้วยระบบบริหารจัดการสหกรณ์ดิจิทัล</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-form-side">
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h2>เข้าสู่ระบบ</h2>
+                <p>ระบุชื่อผู้ใช้งานและรหัสผ่านเพื่อดำเนินการต่อ</p>
+            </div>
+
+            <div class="form-group">
+                <label>ชื่อผู้ใช้งาน</label>
+                <RadzenTextBox @bind-Value="Model.Username" Name="Username" AutoComplete="false" />
+            </div>
+
+            <div class="form-group">
+                <label>รหัสผ่าน</label>
+                <RadzenPassword @bind-Value="Model.Password" Name="Password" />
+            </div>
+
+            <RadzenButton Text="LOGIN"
+                          Click="@OnLogin"
+                          Disabled="@IsLoading"
+                          IsBusy="@IsLoading"
+                          class="btn-login" />
+
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <div class="error-banner">
+                    <RadzenIcon Icon="warning" />
+                    <span>@ErrorMessage</span>
+                </div>
+            }
+        </div>
+    </div>
+</div>
