@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MiniCoop.Infrastructure.Data;
+using MiniCoop.Application.Auth;
+using MiniCoop.Infrastructure.Auth;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,13 +23,22 @@ builder.Services.AddDbContext<MiniCoopDbContext>(options =>
 );
 
 // ===============================
-// JWT
+// JWT Config
 // ===============================
 var jwtSection = builder.Configuration.GetSection("Jwt");
-
 var jwtKey = jwtSection["Key"]!;
 var jwtIssuer = jwtSection["Issuer"]!;
 var jwtAudience = jwtSection["Audience"]!;
+
+// ===============================
+// JWT Options
+// ===============================
+builder.Services.Configure<JwtOptions>(
+    builder.Configuration.GetSection("Jwt")
+);
+
+// REGISTER JWT SERVICE
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
