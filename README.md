@@ -121,7 +121,7 @@ docker compose up --build
     Username: admin
     Password: 1888
    
-        Username: staff
+    Username: staff
     Password: 1888
 
 **ความสมารถในการดูเมนูต่างกัน**
