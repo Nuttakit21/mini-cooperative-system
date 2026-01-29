@@ -41,9 +41,11 @@ builder.Services.AddScoped<JwtAuthorizationMessageHandler>();
 // =======================================
 // AuthService (Login เท่านั้น / ไม่แนบ JWT)
 // =======================================
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"];
+
 builder.Services.AddHttpClient<AuthService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5022/");
+    client.BaseAddress = new Uri(apiBaseUrl!);
 });
 
 // =======================================
@@ -51,7 +53,7 @@ builder.Services.AddHttpClient<AuthService>(client =>
 // =======================================
 builder.Services.AddHttpClient("ApiClient", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5022/");
+    client.BaseAddress = new Uri(apiBaseUrl!);
 })
 .AddHttpMessageHandler<JwtAuthorizationMessageHandler>();
 

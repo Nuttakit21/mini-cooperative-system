@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: minicoop-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: src/MiniCoop.Api/Dockerfile
+    container_name: minicoop-api
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+
+      # Connection
+      ConnectionStrings__DefaultConnection: "server=mysql;port=3306;database=${MYSQL_DATABASE};user=root;password=${MYSQL_ROOT_PASSWORD}"
+
+      # JWT
+      Jwt__Key: ${JWT_KEY}
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__ExpireMinutes: ${JWT_EXPIREMINUTES}
+
+    ports:
+      - "5022:8080"
+
+  web:
+    build:
+      context: .
+      dockerfile: src/MiniCoop.Web/Dockerfile
+    container_name: minicoop-web
+    depends_on:
+      - api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+
+      # ให้ Blazor ยิงหา API ผ่าน docker network
+      ApiSettings__BaseUrl: "http://api:8080"
+
+    ports:
+      - "5000:8080"
+
+volumes:
+  mysql_data:

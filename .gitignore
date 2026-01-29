@@ -10,8 +10,8 @@ obj/
 *.sln.docstates
 
 ## ASP.NET Core secrets
-appsettings.Development.json
-appsettings.Production.json
+**/appsettings.Development.json
+.env
 
 ## Logs
 *.log
