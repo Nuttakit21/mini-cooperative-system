@@ -1,38 +1,170 @@
-# Mini Cooperative System
+# 🚀 Mini Cooperative System
 
-A web-based cooperative management system built with modern .NET technologies.  
-This project demonstrates clean architecture, JWT authentication, dynamic menu management, and database-driven page loading.
+ระบบจัดการสหกรณ์ (Mini Cooperative System) เป็นโปรเจกต์ตัวอย่างแบบ
+Full-stack ที่พัฒนาด้วย **ASP.NET Core + Blazor Server** ออกแบบตามแนวคิด
+Clean Architecture พร้อมระบบ Authentication ที่ปลอดภัย และรองรับการ
+Deploy ด้วย Docker
 
----
+โปรเจกต์นี้ถูกสร้างขึ้นเพื่อแสดงแนวทางการพัฒนาระบบจริง
+(Production-style) ทั้งฝั่ง Backend และ Frontend
 
-## 🚀 Tech Stack
-- ASP.NET Core Web API
-- Blazor Server
-- MySQL
-- Entity Framework Core
-- JWT Authentication
-- Radzen UI
+------------------------------------------------------------------------
 
----
+## 🧱 Architecture
 
-## 🧠 Key Features
-- Role-based authentication (JWT)
-- Dynamic menu from database
-- Dynamic page loading using Blazor `DynamicComponent`
-- Clean architecture (API / Application / Infrastructure / Domain)
-- EF Core migrations with seeded test data
+    Blazor Server (Web UI)
+            ↓
+    ASP.NET Core Web API
+            ↓
+    Entity Framework Core
+            ↓
+    MySQL (Docker Volume)
 
----
+**แนวคิดที่ใช้ในระบบ:**
 
-## ⚙️ How to Run
+-   แยก Layer ชัดเจน (Web / API / Infrastructure)
+-   JWT Authentication
+-   Menu เปลี่ยนตาม Role จาก Database
+-   สร้าง Database อัตโนมัติ (Migration)
+-   Seed Data สำหรับ Demo
+-   รองรับ Docker
+-   ใช้ Environment Variables
 
-1. Install **MySQL Server**
-2. Update the connection string in `appsettings.json`
-3. Run `ResetDB` to create schema and seed test data
-4. Start the API project
-5. Start the Web project
+------------------------------------------------------------------------
 
----
+## 🛠 Tech Stack
 
-## ⚠️ Note
-This project uses **test data for demonstration purposes only** and is not configured for production use.
+### Backend
+
+-   ASP.NET Core (.NET 9)
+-   Entity Framework Core
+-   MySQL
+-   JWT Authentication
+
+### Frontend
+
+-   Blazor Server
+-   Radzen UI Components
+
+### Infrastructure
+
+-   Docker Compose
+-   Environment Variables (.env)
+-   Auto Migration
+
+------------------------------------------------------------------------
+
+## ⭐ Features
+
+✅ Login ด้วย JWT\
+✅ Authorization ตาม Role\
+✅ Dynamic Menu จาก Database\
+✅ Auto Migration ตอน Start ระบบ\
+✅ มี Seed Data สำหรับทดลอง\
+✅ โครงสร้างโปรเจกต์แบบ Clean\
+✅ พร้อม Deploy ด้วย Docker\
+✅ แยก Config ตาม Environment
+
+------------------------------------------------------------------------
+
+## 📂 โครงสร้างโปรเจกต์
+
+    src/
+     ├── MiniCoop.Api            → REST API
+     ├── MiniCoop.Web            → Blazor Server UI
+     ├── MiniCoop.Application    → Business Logic
+     └── MiniCoop.Infrastructure → Database / EF Core
+
+------------------------------------------------------------------------
+
+## 🐳 วิธีรันด้วย Docker (แนะนำ)
+
+### ✅ สิ่งที่ต้องมี
+
+-   ติดตั้ง **Docker Desktop**
+
+------------------------------------------------------------------------
+
+### 1️⃣ สร้างไฟล์ `.env` ไว้ที่ root ของโปรเจกต์
+
+    MYSQL_ROOT_PASSWORD=supersecret
+    MYSQL_DATABASE=minicoopdb
+
+    JWT_KEY=THIS_IS_SUPER_SECRET_KEY_32CHARS++
+    JWT_ISSUER=MiniCoop
+    JWT_AUDIENCE=MiniCoopUsers
+    JWT_EXPIREMINUTES=120
+
+------------------------------------------------------------------------
+
+### 2️⃣ รันระบบ
+
+``` bash
+docker compose down -v
+docker compose up --build
+```
+
+------------------------------------------------------------------------
+
+## 🌐 Services
+
+  Service   URL
+  --------- -----------------------
+  Web UI    http://localhost:5000
+  API       http://localhost:5022
+  MySQL     localhost:3307
+
+------------------------------------------------------------------------
+
+## 🔐 Demo Account
+
+    Username: admin
+    Password: 1888
+   
+        Username: staff
+    Password: 1888
+
+**ความสมารถในการดูเมนูต่างกัน**
+*(ระบบจะสร้างข้อมูลตัวอย่างให้อัตโนมัติเมื่อรันครั้งแรก)*
+
+------------------------------------------------------------------------
+
+## ⚙️ วิธีรันแบบ Dev (ไม่ใช้ Docker)
+
+1.  ติดตั้ง MySQL
+2.  แก้ Connection String
+3.  Run API
+4.  Run Web
+
+Database จะถูกสร้างอัตโนมัติผ่าน EF Core Migration
+
+------------------------------------------------------------------------
+
+## 🎯 จุดประสงค์ของโปรเจกต์
+
+โปรเจกต์นี้ถูกสร้างเพื่อแสดงทักษะด้าน:
+
+-   การออกแบบระบบ Backend
+-   การทำ Authentication ที่ปลอดภัย
+-   การจัดโครงสร้างโปรเจกต์ .NET แบบใช้งานจริง
+-   การใช้ Docker
+-   การจัดการฐานข้อมูล
+-   การสร้าง UI ด้วย Blazor
+
+------------------------------------------------------------------------
+
+## 🔮 สิ่งที่สามารถพัฒนาต่อได้
+
+-   Refresh Token
+-   Global Exception Middleware
+-   Logging (Serilog)
+-   API Versioning
+-   Redis Cache
+-   CI/CD Pipeline
+-   Reverse Proxy (Nginx)
+
+------------------------------------------------------------------------
+
+## 👨‍💻 ผู้พัฒนา
+
+**Nuttakit Hongthong**
