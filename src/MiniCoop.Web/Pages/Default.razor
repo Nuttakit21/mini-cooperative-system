@@ -1,0 +1,37 @@
+﻿@page "/{Pagename}"
+@using System.Reflection
+
+@if (ComponentType != null)
+{
+    <DynamicComponent Type="ComponentType" />
+}
+else
+{
+    <h3>ไม่พบหน้า</h3>
+}
+
+@code {
+    [Parameter] public string? Pagename { get; set; }
+
+    private Type? ComponentType;
+
+    protected override void OnParametersSet()
+    {
+        ComponentType = ResolveComponent(Pagename);
+    }
+
+    private Type? ResolveComponent(string? pageName)
+    {
+        if (string.IsNullOrWhiteSpace(pageName))
+            return null;
+
+        var assembly = Assembly.GetExecutingAssembly();
+
+        var className =
+            char.ToUpper(pageName[0]) + pageName.Substring(1);
+
+        var fullName = $"MiniCoop.Web.Pages.{className}";
+
+        return assembly.GetType(fullName);
+    }
+}

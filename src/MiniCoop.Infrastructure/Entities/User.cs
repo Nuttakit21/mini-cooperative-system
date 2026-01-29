@@ -1,21 +1,27 @@
-﻿namespace MiniCoop.Infrastructure.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace MiniCoop.Infrastructure.Entities;
+
+[Table("users")]
 public class Users
 {
+    [Key]
     public int Id { get; set; }
 
+    [Required, MaxLength(50)]
     public string Username { get; set; } = null!;
 
+    [Required, MaxLength(255)]
     public string PasswordHash { get; set; } = null!;
 
-    public string FullName { get; set; } = null!;
+    [MaxLength(200)]
+    public string? FullName { get; set; }
 
-    public string Role { get; set; } = "STAFF"; // ADMIN / STAFF
+    [MaxLength(20)]
+    public string Role { get; set; } = "User";
 
-    public bool IsActive { get; set; } = true;
+    public DateTime? CreatedAt { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    // Navigation
-    public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public ICollection<Transaction>? Transactions { get; set; }
 }

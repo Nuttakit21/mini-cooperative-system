@@ -1,27 +1,26 @@
-﻿namespace MiniCoop.Infrastructure.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace MiniCoop.Infrastructure.Entities;
+
+[Table("members")]
 public class Member
 {
-    public int Id { get; set; }
-
-    // เลขสมาชิก
+    [Key]
+    [Required, MaxLength(10)]
     public string MemberNo { get; set; } = null!;
 
-    // ชื่อ-นามสกุล
+    [Required, MaxLength(200)]
     public string FullName { get; set; } = null!;
 
-    // เลขบัตรประชาชน
+    [Required, MaxLength(13)]
     public string IdCard { get; set; } = null!;
 
-    // ACTIVE / SUSPENDED / CLOSED
-    public string Status { get; set; } = "ACTIVE";
+    [Required, MaxLength(20)]
+    public string Status { get; set; } = null!;
 
-    // วันที่สมัคร
-    public DateOnly OpenDate { get; set; }
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal AccountBalance { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public DateTime? UpdatedAt { get; set; }
-
-    // Navigation
-    public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public DateTime OpenDate { get; set; }
 }

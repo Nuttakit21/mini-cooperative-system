@@ -14,8 +14,7 @@ public class JwtAuthorizationMessageHandler : DelegatingHandler
     {
         if (!string.IsNullOrWhiteSpace(_store.Token))
         {
-            request.Headers.Authorization =
-                new AuthenticationHeaderValue("Bearer", _store.Token);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _store.Token);
         }
 
         return base.SendAsync(request, cancellationToken);

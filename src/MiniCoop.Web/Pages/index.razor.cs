@@ -12,16 +12,7 @@ namespace MiniCoop.Web.Pages
         {
             try
             {
-                string result = "";
-                var data = await Api.GetAsync<string>("api/test/test");
-
-                if (data == null)
-                {
-                    result = "❌ เรียกไม่ได้ (อาจโดน 401)";
-                    return;
-                }
-
-                result = data;
+                test++;
             }
             catch (Exception ex) { }
         }

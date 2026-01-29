@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using MiniCoop.Api.DTOs;
 using MiniCoop.Application.Auth;
-using MiniCoop.Infrastructure.Data;
 
 namespace MiniCoop.Api.Controllers;
 

@@ -1,27 +1,26 @@
-﻿@inherits LayoutComponentBase
-@using Microsoft.AspNetCore.Components.Authorization
+﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Radzen.Blazor
+@inherits LayoutComponentBase
 
 <RadzenNotification />
+
 <AuthorizeView>
     <Authorized>
-        <div class="header-wrapper">
-            <RadzenProfileMenu Click="@MenuClick" translate="no" class="v-align-right">
-                <Template>
-                    <div class="profile-inner">
-                        <div class="avatar-circle">
-                            <RadzenImage Path="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?fit=crop&w=150&h=150" />
-                            <span class="dot"></span>
-                        </div>
-                        <span class="user-text">@User_name</span>
+        <RadzenLayout>
+            <RadzenHeader>
+                <Header OnToggle="@ToggleSidebar" />
+            </RadzenHeader>
+            <RadzenSidebar @bind-Expanded="@isCollapsed">
+                <Sidebar />
+            </RadzenSidebar>
+            <RadzenBody>
+                <div id="top">
+                    <div class="rz-p-4">
+                        @Body
                     </div>
-                </Template>
-                <ChildContent>
-                    <RadzenProfileMenuItem Text="Logout" Value="LogOff" Icon="logout" />
-                </ChildContent>
-            </RadzenProfileMenu>
-        </div>
-        @Body
+                </div>
+            </RadzenBody>
+        </RadzenLayout>
     </Authorized>
     <NotAuthorized>
         <RedirectToLogin />

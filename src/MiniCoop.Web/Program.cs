@@ -22,9 +22,9 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<ProtectedLocalStorage>();
 
 // =======================================
-// Token Store (ต่อ session / ต่อ user) ห้าม Singleton
+// Token Store Memory Storage
 // =======================================
-builder.Services.AddScoped<TokenStore>();
+builder.Services.AddSingleton<TokenStore>();
 
 // =======================================
 // AuthenticationStateProvider

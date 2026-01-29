@@ -1,28 +1,29 @@
-﻿namespace MiniCoop.Infrastructure.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MiniCoop.Infrastructure.Entities;
 
 public class Transaction
 {
-    public long Id { get; set; }
+    public int SeqNo { get; set; }
 
-    // FK -> Member
-    public int MemberId { get; set; }
-    public Member Member { get; set; } = null!;
+    [Required, MaxLength(10)]
+    public string MemberNo { get; set; } = null!;
 
-    // FK -> User (เจ้าหน้าที่)
-    public int UserId { get; set; }
-    public Users User { get; set; } = null!;
-
-    // DEPOSIT / WITHDRAW / PAYMENT
+    [Required, MaxLength(3)]
     public string TransactionType { get; set; } = null!;
 
-    // จำนวนเงิน
+    [Column(TypeName = "decimal(18,2)")]
     public decimal Amount { get; set; }
 
-    // วันที่ทำรายการ
-    public DateTime TransactionDate { get; set; } = DateTime.UtcNow;
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal BalanceAfter { get; set; }
 
-    // หมายเหตุ
+    public DateTime TransactionDate { get; set; }
+
     public string? Remark { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? CreatedAt { get; set; }
+
+    public Member Member { get; set; } = null!;
 }

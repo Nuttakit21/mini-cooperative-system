@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using System.Net.Http.Json;
+using MiniCoop.Web.Models.User;
 
 namespace MiniCoop.Web.Services
 {

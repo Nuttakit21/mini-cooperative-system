@@ -1,0 +1,108 @@
+﻿@using Radzen
+@using Radzen.Blazor
+
+<div class="header-wrapper">
+
+    <div class="header-left">
+        <RadzenButton Icon="menu"
+                      ButtonStyle="ButtonStyle.Light"
+                      Variant="Variant.Text"
+                      Style="color: #636e72;"
+                      Click="@ToggleSidebar" />
+    </div>
+
+    <div class="header-right">
+        <RadzenProfileMenu Click="@MenuClick">
+            <Template>
+                <div class="custom-profile-box">
+                    <img src="https://ui-avatars.com/api/?name=@User_name&background=6c5ce7&color=fff"
+                         class="avatar-img" />
+
+                    <div class="text-container d-none d-sm-flex">
+                        <span class="name-label">@User_name</span>
+                        <span class="status-label">● Online</span>
+                    </div>
+                </div>
+            </Template>
+            <ChildContent>
+                <RadzenProfileMenuItem Text="โปรไฟล์" Icon="person_outline" />
+                <RadzenProfileMenuItem Text="ตั้งค่า" Icon="settings" />
+                <RadzenProfileMenuItem Text="ออกจากระบบ" Icon="logout" Value="LogOff" Style="color: #ff7675;" />
+            </ChildContent>
+        </RadzenProfileMenu>
+    </div>
+
+</div>
+
+<style>
+    .rz-profile-menu {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+        .rz-profile-menu .rz-navigation-item-link {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 24px;
+        height: 64px;
+        background: #ffffff;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .custom-profile-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 12px;
+        border-radius: 8px;
+        transition: background 0.2s;
+        cursor: pointer;
+    }
+
+        .custom-profile-box:hover {
+            background-color: #f8f9fa;
+        }
+
+    .avatar-img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .text-container {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+
+    .name-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2d3436;
+    }
+
+    .status-label {
+        font-size: 11px;
+        color: #00b894;
+        font-weight: 500;
+    }
+
+    .rz-profile-menu-content {
+        border-radius: 12px !important;
+        border: none !important;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+        margin-top: 10px !important;
+    }
+</style>

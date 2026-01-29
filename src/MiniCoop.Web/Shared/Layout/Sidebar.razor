@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+
+<aside class="sidebar @(Collapsed ? "collapsed" : "")">
+    <div class="nav-container">
+        <nav class="nav flex-column">
+            @foreach (var menu in Menus)
+            {
+                <NavLink class="nav-link" href="@menu.Path" Match="NavLinkMatch.All">
+                    <span class="material-icons">@menu.Icon</span>
+                    @if (!Collapsed)
+                    {
+                        <span class="menu-text">@menu.Name</span>
+                    }
+                </NavLink>
+            }
+        </nav>
+    </div>
+</aside>
+
+<style>
+    .rz-sidebar,
+    .rz-sidebar-content,
+    .sidebar {
+        -ms-overflow-style: none !important;
+        scrollbar-width: none !important;
+    }
+
+        .rz-sidebar::-webkit-scrollbar,
+        .sidebar::-webkit-scrollbar {
+            display: none !important;
+        }
+
+    .sidebar {
+        width: 260px;
+        height: calc(100vh - 64px);
+        margin-top: 65px;
+        background: #ffffff;
+        border-right: 1px solid #f0f0f0;
+        transition: width 0.3s ease;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+    .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        margin: 4px 10px;
+        border-radius: 10px;
+        color: #2d3436 !important;
+        text-decoration: none !important;
+        transition: 0.2s;
+    }
+
+        .nav-link.active {
+            background-color: #f0eeff !important;
+            color: #6c5ce7 !important;
+            font-weight: 600;
+        }
+
+    .material-icons {
+        margin-right: 15px;
+        font-size: 22px;
+    }
+
+    .sidebar.collapsed .material-icons {
+        margin-right: 0;
+        width: 100%;
+        text-align: center;
+    }
+</style>
