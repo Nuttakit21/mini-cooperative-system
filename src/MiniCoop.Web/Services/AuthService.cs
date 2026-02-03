@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using MiniCoop.Web.Models.Auth;
+using MiniCoop.Application.DTOs.Login;
 using MiniCoop.Web.Services;
 
 public class AuthService

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using MiniCoop.Web.Models.Auth;
+using MiniCoop.Application.DTOs.Login;
 using Radzen;
 
 namespace MiniCoop.Web.Pages
@@ -63,7 +63,7 @@ namespace MiniCoop.Web.Pages
 
             if (success)
             {
-                Navigation.NavigateTo(string.IsNullOrWhiteSpace(returnUrl) ? "/" : returnUrl, true);
+                Navigation.NavigateTo(string.IsNullOrWhiteSpace(returnUrl) ? "/index" : returnUrl, true);
             }
             else
             {

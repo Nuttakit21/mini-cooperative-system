@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MiniCoop.Application.Auth;
+using MiniCoop.Application.Interfaces;
+using MiniCoop.Application.Services;
 using MiniCoop.Infrastructure.Auth;
 using System.Text;
 
@@ -62,6 +64,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+
+// ===============================
+// SERVICE
+// ===============================
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddScoped<IMenuRepository, MenuRepository>();
+builder.Services.AddScoped<IMenuService, MenuService>();
 
 var app = builder.Build();
 

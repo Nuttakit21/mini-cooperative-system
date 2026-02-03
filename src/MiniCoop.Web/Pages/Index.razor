@@ -1,6 +1,26 @@
 ﻿@page "/"
-@using Radzen.Blazor
+@using Microsoft.AspNetCore.Components.Web
+@using MiniCoop.Web.Shared
 
-<h3>@test</h3>
-<RadzenButton Text="PUSH" Click="@push"/>
+<PageTitle>เลือกระบบ</PageTitle>
 
+<div class="system-selection-wrapper">
+    <div class="container custom-top-spacing">
+
+        <div class="header-content text-center mb-4">
+            <h4 class="fw-bold mb-1">เลือกระบบใช้งาน</h4>
+        </div>
+
+        <div class="app-grid-layout">
+            @foreach (var app in _apps)
+            {
+                <div class="app-tile" @onclick="@(() => SelectApp(app.APPLICATION_CODE))">
+                    <div class="icon-container">
+                        <i class="@app.ICON"></i>
+                    </div>
+                    <div class="app-name-label">@app.APPLICATION_NAME</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

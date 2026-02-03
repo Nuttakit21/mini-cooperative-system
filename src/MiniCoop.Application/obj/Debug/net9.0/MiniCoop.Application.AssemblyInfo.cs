@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniCoop.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4d814e4a6ececb85ee22e94fae4c540ea10d23f5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37fb92759b9d954d4f9570caf9573be56941add6")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniCoop.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniCoop.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

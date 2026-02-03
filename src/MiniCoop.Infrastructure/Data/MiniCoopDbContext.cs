@@ -1,14 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MiniCoop.Domain.Entities;
 using MiniCoop.Infrastructure.Entities;
 
 public class MiniCoopDbContext : DbContext
 {
     public MiniCoopDbContext(DbContextOptions<MiniCoopDbContext> options) : base(options) { }
 
-    public DbSet<Menu> Menus => Set<Menu>();
-    public DbSet<Member> Members => Set<Member>();
-    public DbSet<Users> Users => Set<Users>();
-    public DbSet<Transaction> Transactions => Set<Transaction>();
+    public DbSet<APPLICATION> Application => Set<APPLICATION>();
+    public DbSet<MENUGROUP> Menugroup => Set<MENUGROUP>();
+    public DbSet<MENUS> Menus => Set<MENUS>();
+    public DbSet<MEMBERMASTER> Members => Set<MEMBERMASTER>();
+    public DbSet<USERS> USERS => Set<USERS>();
+    public DbSet<TRANSACTION> Transactions => Set<TRANSACTION>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -17,84 +20,93 @@ public class MiniCoopDbContext : DbContext
         // =========================
         // USERS
         // =========================
-        modelBuilder.Entity<Users>().HasData(
-            new Users
+        modelBuilder.Entity<USERS>().HasData(
+            new USERS
             {
-                Id = 1,
-                Username = "admin",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("1888"),
-                FullName = "System Admin",
-                Role = "Admin",
-                CreatedAt = new DateTime(2026, 1, 1)
+                ID = 1,
+                USERNAME = "admin",
+                PASSWORD_HASH = BCrypt.Net.BCrypt.HashPassword("1888"),
+                FULL_NAME = "System Admin",
+                ROLE = "Admin",
+                CREATED_AT = new DateTime(2026, 1, 1)
             },
-            new Users
+            new USERS
             {
-                Id = 2,
-                Username = "staff",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("1888"),
-                FullName = "Staff User",
-                Role = "Staff",
-                CreatedAt = new DateTime(2026, 1, 1)
+                ID = 2,
+                USERNAME = "staff",
+                PASSWORD_HASH = BCrypt.Net.BCrypt.HashPassword("1888"),
+                FULL_NAME = "Staff User",
+                ROLE = "Staff",
+                CREATED_AT = new DateTime(2026, 1, 1)
             }
         );
 
         // =========================
-        // MENU
+        // APPLICATION
         // =========================
-        modelBuilder.Entity<Menu>().HasData(
-            new Menu { Id = 1, Name = "ฝากเงิน", Path = "Deposit", Icon = "add", OrderNo = 1, IsActive = true, RequiredRole = "User" },
-            new Menu { Id = 2, Name = "ถอนเงิน", Path = "Withdraw", Icon = "remove", OrderNo = 2, IsActive = true, RequiredRole = "User" },
-            new Menu { Id = 3, Name = "ประวัติ", Path = "Transactions", Icon = "list", OrderNo = 3, IsActive = true, RequiredRole = "User" },
-            new Menu { Id = 4, Name = "ข้อมูลสมาชิก", Path = "Members", Icon = "person", OrderNo = 4, IsActive = true, RequiredRole = "User" },
-            new Menu { Id = 5, Name = "จัดการผู้ใช้", Path = "Users", Icon = "people", OrderNo = 5, IsActive = true, RequiredRole = "Admin" },
-            new Menu { Id = 6, Name = "ตั้งค่าระบบ", Path = "Settings", Icon = "settings", OrderNo = 6, IsActive = true, RequiredRole = "Admin" }
+        modelBuilder.Entity<APPLICATION>().HasData(
+            new APPLICATION { APPLICATION_ID = 1, APPLICATION_CODE = "Member", APPLICATION_NAME = "ระบบสมาชิก", ICON = "fa-solid fa-users", ORDER_NO = 1, IS_ACTIVE = true },
+            new APPLICATION { APPLICATION_ID = 2, APPLICATION_CODE = "Deposit", APPLICATION_NAME = "ระบบเงินฝาก", ICON = "fa-solid fa-piggy-bank", ORDER_NO = 2, IS_ACTIVE = true }
         );
 
         // =========================
-        // MENUROLE
+        // MENUGROUP
         // =========================
-        modelBuilder.Entity<MenuRole>().HasData(
-            new MenuRole { Id = 1, MenuId = 1, Role = "User" },
-            new MenuRole { Id = 2, MenuId = 2, Role = "User" },
-            new MenuRole { Id = 3, MenuId = 3, Role = "User" },
-            new MenuRole { Id = 4, MenuId = 4, Role = "User" },
-            new MenuRole { Id = 5, MenuId = 5, Role = "Admin" },
-            new MenuRole { Id = 6, MenuId = 6, Role = "Admin" }
+        modelBuilder.Entity<MENUGROUP>().HasData(
+            new MENUGROUP { MENU_GROUP_ID = 1, APPLICATION_ID = 1, APPLICATION_NAME = "ข้อมูลสมาชิก", ICON = "fa-solid fa-id-card", ORDER_NO = 1, IS_ACTIVE = true },
+            new MENUGROUP { MENU_GROUP_ID = 2, APPLICATION_ID = 1, APPLICATION_NAME = "รายงานสมาชิก", ICON = "fa-solid fa-file-lines", ORDER_NO = 2, IS_ACTIVE = true },
+
+            new MENUGROUP { MENU_GROUP_ID = 3, APPLICATION_ID = 2, APPLICATION_NAME = "บัญชีเงินฝาก", ICON = "fa-solid fa-book", ORDER_NO = 1, IS_ACTIVE = true },
+            new MENUGROUP { MENU_GROUP_ID = 4, APPLICATION_ID = 2, APPLICATION_NAME = "รายงานเงินฝาก", ICON = "fa-solid fa-chart-line", ORDER_NO = 2, IS_ACTIVE = true }
         );
+
+
+        // =========================
+        // MENU
+        // =========================
+        modelBuilder.Entity<MENUS>().HasData(
+            new MENUS { MENU_ID = 1, MENU_GROUP_ID = 1, MENU_NAME = "ทะเบียนสมาชิก", PATH = "List", ORDER_NO = 1, IS_ACTIVE = true },
+            new MENUS { MENU_ID = 2, MENU_GROUP_ID = 1, MENU_NAME = "เพิ่มสมาชิก", PATH = "Create", ORDER_NO = 2, IS_ACTIVE = true },
+            new MENUS { MENU_ID = 3, MENU_GROUP_ID = 1, MENU_NAME = "แก้ไขสมาชิก", PATH = "Edit", ORDER_NO = 3, IS_ACTIVE = true },
+
+            new MENUS { MENU_ID = 4, MENU_GROUP_ID = 3, MENU_NAME = "เปิดบัญชีเงินฝาก", PATH = "Open", ORDER_NO = 1, IS_ACTIVE = true },
+            new MENUS { MENU_ID = 5, MENU_GROUP_ID = 3, MENU_NAME = "ฝากเงิน", PATH = "In", ORDER_NO = 2, IS_ACTIVE = true },
+            new MENUS { MENU_ID = 6, MENU_GROUP_ID = 3, MENU_NAME = "ถอนเงิน", PATH = "Out", ORDER_NO = 3, IS_ACTIVE = true }
+        );
+
 
         // =========================
         // MEMBERS
         // =========================
-        modelBuilder.Entity<Member>().HasData(
-            new Member { MemberNo = "M0001", FullName = "สมชาย ใจดี", IdCard = "1103700000011", Status = "Active", AccountBalance = 5000, OpenDate = new DateTime(2025, 1, 1) },
-            new Member { MemberNo = "M0002", FullName = "สมหญิง ใจงาม", IdCard = "1103700000022", Status = "Active", AccountBalance = 12000, OpenDate = new DateTime(2025, 1, 5) },
-            new Member { MemberNo = "M0003", FullName = "วิชัย รุ่งเรือง", IdCard = "1103700000033", Status = "Active", AccountBalance = 3000, OpenDate = new DateTime(2025, 1, 10) },
-            new Member { MemberNo = "M0004", FullName = "สายฝน แสงดาว", IdCard = "1103700000044", Status = "Active", AccountBalance = 8000, OpenDate = new DateTime(2025, 1, 12) },
-            new Member { MemberNo = "M0005", FullName = "มนตรี กล้าหาญ", IdCard = "1103700000055", Status = "Active", AccountBalance = 15000, OpenDate = new DateTime(2025, 1, 15) },
-            new Member { MemberNo = "M0006", FullName = "จันทร์เพ็ญ สุขใจ", IdCard = "1103700000066", Status = "Active", AccountBalance = 2000, OpenDate = new DateTime(2025, 1, 20) }
+        modelBuilder.Entity<MEMBERMASTER>().HasData(
+            new MEMBERMASTER { MEMBER_NO = "M001", FULL_NAME = "สมชาย ใจดี", ID_CARD = "1103700000011", STATUS = "ACTIVE", OPEN_DATE = DateTime.Parse("2024-01-01") },
+            new MEMBERMASTER { MEMBER_NO = "M002", FULL_NAME = "สมหญิง รวยดี", ID_CARD = "1103700000022", STATUS = "ACTIVE", OPEN_DATE = DateTime.Parse("2024-01-05") },
+            new MEMBERMASTER { MEMBER_NO = "M003", FULL_NAME = "วิชัย ประหยัด", ID_CARD = "1103700000033", STATUS = "ACTIVE", OPEN_DATE = DateTime.Parse("2024-01-10") }
         );
+
+        // =========================
+        // DEPOSITMASTER
+        // =========================
+        modelBuilder.Entity<DEPOSITMASTER>().HasData(
+            new DEPOSITMASTER { ACCOUNT_NO = "0000000001", MEMBER_NO = "M001", BALANCE = 5000, OPEN_DATE = DateTime.Parse("2024-01-01") },
+            new DEPOSITMASTER { ACCOUNT_NO = "0000000002", MEMBER_NO = "M002", BALANCE = 12000, OPEN_DATE = DateTime.Parse("2024-01-05") },
+            new DEPOSITMASTER { ACCOUNT_NO = "0000000003", MEMBER_NO = "M003", BALANCE = 3000, OPEN_DATE = DateTime.Parse("2024-01-10") }
+        );
+
 
         // =========================
         // TRANSACTIONS
         // =========================
-        modelBuilder.Entity<Transaction>(entity =>
+        modelBuilder.Entity<TRANSACTION>(entity =>
         {
-            entity.HasKey(t => new { t.MemberNo, t.SeqNo });
-            entity.HasOne(t => t.Member).WithMany().HasForeignKey(t => t.MemberNo).HasPrincipalKey(m => m.MemberNo);
+            entity.HasKey(t => new { t.ACCOUNT_NO, t.SEQ_NO });
+            entity.HasOne(t => t.DEPOSITMASTER).WithMany().HasForeignKey(t => t.ACCOUNT_NO).HasPrincipalKey(m => m.ACCOUNT_NO);
         });
-        modelBuilder.Entity<Transaction>().HasData(
-            new Transaction { MemberNo = "M0001", SeqNo = 1, TransactionType = "DEP", Amount = 5000, BalanceAfter = 5000, TransactionDate = new DateTime(2025, 1, 5, 9, 30, 0), Remark = "เปิดบัญชี", CreatedAt = new DateTime(2025, 1, 5) },
-            new Transaction { MemberNo = "M0001", SeqNo = 2, TransactionType = "WDL", Amount = 1000, BalanceAfter = 4000, TransactionDate = new DateTime(2025, 1, 10, 14, 0, 0), Remark = "ถอนเงิน", CreatedAt = new DateTime(2025, 1, 10) },
-            new Transaction { MemberNo = "M0002", SeqNo = 1, TransactionType = "DEP", Amount = 8000, BalanceAfter = 8000, TransactionDate = new DateTime(2025, 1, 6, 10, 15, 0), Remark = "ฝากครั้งแรก", CreatedAt = new DateTime(2025, 1, 6) },
-            new Transaction { MemberNo = "M0002", SeqNo = 2, TransactionType = "WDL", Amount = 3000, BalanceAfter = 5000, TransactionDate = new DateTime(2025, 1, 12, 11, 45, 0), Remark = "ถอนเงิน", CreatedAt = new DateTime(2025, 1, 12) },
-            new Transaction { MemberNo = "M0003", SeqNo = 1, TransactionType = "DEP", Amount = 12000, BalanceAfter = 12000, TransactionDate = new DateTime(2025, 1, 7, 9, 0, 0), Remark = "เปิดบัญชี", CreatedAt = new DateTime(2025, 1, 7) },
-            new Transaction { MemberNo = "M0003", SeqNo = 2, TransactionType = "WDL", Amount = 2000, BalanceAfter = 10000, TransactionDate = new DateTime(2025, 1, 15, 16, 20, 0), Remark = "ถอนเงิน", CreatedAt = new DateTime(2025, 1, 15) },
-            new Transaction { MemberNo = "M0004", SeqNo = 1, TransactionType = "DEP", Amount = 3000, BalanceAfter = 3000, TransactionDate = new DateTime(2025, 1, 8, 13, 10, 0), Remark = "ฝากเงิน", CreatedAt = new DateTime(2025, 1, 8) },
-            new Transaction { MemberNo = "M0004", SeqNo = 2, TransactionType = "DEP", Amount = 2000, BalanceAfter = 5000, TransactionDate = new DateTime(2025, 1, 18, 10, 5, 0), Remark = "ฝากเพิ่ม", CreatedAt = new DateTime(2025, 1, 18) },
-            new Transaction { MemberNo = "M0005", SeqNo = 1, TransactionType = "DEP", Amount = 15000, BalanceAfter = 15000, TransactionDate = new DateTime(2025, 1, 9, 9, 45, 0), Remark = "เปิดบัญชี", CreatedAt = new DateTime(2025, 1, 9) },
-            new Transaction { MemberNo = "M0005", SeqNo = 2, TransactionType = "WDL", Amount = 5000, BalanceAfter = 10000, TransactionDate = new DateTime(2025, 1, 20, 15, 30, 0), Remark = "ถอนเงิน", CreatedAt = new DateTime(2025, 1, 20) },
-            new Transaction { MemberNo = "M0006", SeqNo = 1, TransactionType = "DEP", Amount = 4000, BalanceAfter = 4000, TransactionDate = new DateTime(2025, 1, 11, 11, 0, 0), Remark = "ฝากเงิน", CreatedAt = new DateTime(2025, 1, 11) },
-            new Transaction { MemberNo = "M0006", SeqNo = 2, TransactionType = "WDL", Amount = 1000, BalanceAfter = 3000, TransactionDate = new DateTime(2025, 1, 22, 14, 50, 0), Remark = "ถอนเงิน", CreatedAt = new DateTime(2025, 1, 22) }
+        modelBuilder.Entity<TRANSACTION>().HasData(
+            new TRANSACTION { SEQ_NO = 1, ACCOUNT_NO = "0000000001", TRANSACTION_TYPE = "DEP", AMOUNT = 5000, BALANCE_AFTER = 5000, TRANSACTION_DATE = DateTime.Parse("2024-01-01") },
+            new TRANSACTION { SEQ_NO = 1, ACCOUNT_NO = "0000000002", TRANSACTION_TYPE = "DEP", AMOUNT = 12000, BALANCE_AFTER = 12000, TRANSACTION_DATE = DateTime.Parse("2024-01-05") },
+            new TRANSACTION { SEQ_NO = 1, ACCOUNT_NO = "0000000003", TRANSACTION_TYPE = "DEP", AMOUNT = 3000, BALANCE_AFTER = 3000, TRANSACTION_DATE = DateTime.Parse("2024-01-10") }
         );
+
     }
 }

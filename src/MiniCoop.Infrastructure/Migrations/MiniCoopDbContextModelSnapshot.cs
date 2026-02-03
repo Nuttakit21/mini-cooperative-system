@@ -21,526 +21,553 @@ namespace MiniCoop.Infrastructure.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.Member", b =>
+            modelBuilder.Entity("MiniCoop.Domain.Entities.APPLICATION", b =>
                 {
-                    b.Property<string>("MemberNo")
+                    b.Property<int>("APPLICATION_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("APPLICATION_ID");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("APPLICATION_ID"));
+
+                    b.Property<string>("APPLICATION_CODE")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)")
+                        .HasColumnName("APPLICATION_CODE");
+
+                    b.Property<string>("APPLICATION_NAME")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("APPLICATION_NAME");
+
+                    b.Property<string>("ICON")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("ICON");
+
+                    b.Property<bool>("IS_ACTIVE")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("IS_ACTIVE");
+
+                    b.Property<int>("ORDER_NO")
+                        .HasColumnType("int")
+                        .HasColumnName("ORDER_NO");
+
+                    b.HasKey("APPLICATION_ID");
+
+                    b.ToTable("APPLICATION");
+
+                    b.HasData(
+                        new
+                        {
+                            APPLICATION_ID = 1,
+                            APPLICATION_CODE = "Member",
+                            APPLICATION_NAME = "ระบบสมาชิก",
+                            ICON = "fa-solid fa-users",
+                            IS_ACTIVE = true,
+                            ORDER_NO = 1
+                        },
+                        new
+                        {
+                            APPLICATION_ID = 2,
+                            APPLICATION_CODE = "Deposit",
+                            APPLICATION_NAME = "ระบบเงินฝาก",
+                            ICON = "fa-solid fa-piggy-bank",
+                            IS_ACTIVE = true,
+                            ORDER_NO = 2
+                        });
+                });
+
+            modelBuilder.Entity("MiniCoop.Domain.Entities.DEPOSITMASTER", b =>
+                {
+                    b.Property<string>("ACCOUNT_NO")
                         .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("varchar(10)")
+                        .HasColumnName("ACCOUNT_NO");
 
-                    b.Property<decimal>("AccountBalance")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("BALANCE")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("BALANCE");
 
-                    b.Property<string>("FullName")
+                    b.Property<bool>("IS_ACTIVE")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("IS_ACTIVE");
+
+                    b.Property<string>("MEMBER_NO")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)")
+                        .HasColumnName("MEMBER_NO");
+
+                    b.Property<DateTime>("OPEN_DATE")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("OPEN_DATE");
+
+                    b.HasKey("ACCOUNT_NO");
+
+                    b.HasIndex("MEMBER_NO");
+
+                    b.ToTable("DEPOSITMASTER");
+
+                    b.HasData(
+                        new
+                        {
+                            ACCOUNT_NO = "0000000001",
+                            BALANCE = 5000m,
+                            IS_ACTIVE = true,
+                            MEMBER_NO = "M001",
+                            OPEN_DATE = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ACCOUNT_NO = "0000000002",
+                            BALANCE = 12000m,
+                            IS_ACTIVE = true,
+                            MEMBER_NO = "M002",
+                            OPEN_DATE = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            ACCOUNT_NO = "0000000003",
+                            BALANCE = 3000m,
+                            IS_ACTIVE = true,
+                            MEMBER_NO = "M003",
+                            OPEN_DATE = new DateTime(2024, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
+            modelBuilder.Entity("MiniCoop.Domain.Entities.MENUGROUP", b =>
+                {
+                    b.Property<int>("MENU_GROUP_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("MENU_GROUP_ID");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("MENU_GROUP_ID"));
+
+                    b.Property<int>("APPLICATION_ID")
+                        .HasColumnType("int")
+                        .HasColumnName("APPLICATION_ID");
+
+                    b.Property<string>("APPLICATION_NAME")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("APPLICATION_NAME");
+
+                    b.Property<string>("ICON")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("ICON");
+
+                    b.Property<bool>("IS_ACTIVE")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("IS_ACTIVE");
+
+                    b.Property<int>("ORDER_NO")
+                        .HasColumnType("int")
+                        .HasColumnName("ORDER_NO");
+
+                    b.HasKey("MENU_GROUP_ID");
+
+                    b.HasIndex("APPLICATION_ID");
+
+                    b.ToTable("MENUGROUP");
+
+                    b.HasData(
+                        new
+                        {
+                            MENU_GROUP_ID = 1,
+                            APPLICATION_ID = 1,
+                            APPLICATION_NAME = "ข้อมูลสมาชิก",
+                            ICON = "fa-solid fa-id-card",
+                            IS_ACTIVE = true,
+                            ORDER_NO = 1
+                        },
+                        new
+                        {
+                            MENU_GROUP_ID = 2,
+                            APPLICATION_ID = 1,
+                            APPLICATION_NAME = "รายงานสมาชิก",
+                            ICON = "fa-solid fa-file-lines",
+                            IS_ACTIVE = true,
+                            ORDER_NO = 2
+                        },
+                        new
+                        {
+                            MENU_GROUP_ID = 3,
+                            APPLICATION_ID = 2,
+                            APPLICATION_NAME = "บัญชีเงินฝาก",
+                            ICON = "fa-solid fa-book",
+                            IS_ACTIVE = true,
+                            ORDER_NO = 1
+                        },
+                        new
+                        {
+                            MENU_GROUP_ID = 4,
+                            APPLICATION_ID = 2,
+                            APPLICATION_NAME = "รายงานเงินฝาก",
+                            ICON = "fa-solid fa-chart-line",
+                            IS_ACTIVE = true,
+                            ORDER_NO = 2
+                        });
+                });
+
+            modelBuilder.Entity("MiniCoop.Domain.Entities.MENUS", b =>
+                {
+                    b.Property<int>("MENU_ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("MENU_ID");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("MENU_ID"));
+
+                    b.Property<bool>("IS_ACTIVE")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("IS_ACTIVE");
+
+                    b.Property<int>("MENU_GROUP_ID")
+                        .HasColumnType("int")
+                        .HasColumnName("MENU_GROUP_ID");
+
+                    b.Property<string>("MENU_NAME")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("MENU_NAME");
+
+                    b.Property<int>("ORDER_NO")
+                        .HasColumnType("int")
+                        .HasColumnName("ORDER_NO");
+
+                    b.Property<string>("PATH")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("PATH");
+
+                    b.HasKey("MENU_ID");
+
+                    b.HasIndex("MENU_GROUP_ID");
+
+                    b.ToTable("MENUS");
+
+                    b.HasData(
+                        new
+                        {
+                            MENU_ID = 1,
+                            IS_ACTIVE = true,
+                            MENU_GROUP_ID = 1,
+                            MENU_NAME = "ทะเบียนสมาชิก",
+                            ORDER_NO = 1,
+                            PATH = "List"
+                        },
+                        new
+                        {
+                            MENU_ID = 2,
+                            IS_ACTIVE = true,
+                            MENU_GROUP_ID = 1,
+                            MENU_NAME = "เพิ่มสมาชิก",
+                            ORDER_NO = 2,
+                            PATH = "Create"
+                        },
+                        new
+                        {
+                            MENU_ID = 3,
+                            IS_ACTIVE = true,
+                            MENU_GROUP_ID = 1,
+                            MENU_NAME = "แก้ไขสมาชิก",
+                            ORDER_NO = 3,
+                            PATH = "Edit"
+                        },
+                        new
+                        {
+                            MENU_ID = 4,
+                            IS_ACTIVE = true,
+                            MENU_GROUP_ID = 3,
+                            MENU_NAME = "เปิดบัญชีเงินฝาก",
+                            ORDER_NO = 1,
+                            PATH = "Open"
+                        },
+                        new
+                        {
+                            MENU_ID = 5,
+                            IS_ACTIVE = true,
+                            MENU_GROUP_ID = 3,
+                            MENU_NAME = "ฝากเงิน",
+                            ORDER_NO = 2,
+                            PATH = "In"
+                        },
+                        new
+                        {
+                            MENU_ID = 6,
+                            IS_ACTIVE = true,
+                            MENU_GROUP_ID = 3,
+                            MENU_NAME = "ถอนเงิน",
+                            ORDER_NO = 3,
+                            PATH = "Out"
+                        });
+                });
+
+            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.MEMBERMASTER", b =>
+                {
+                    b.Property<string>("MEMBER_NO")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)")
+                        .HasColumnName("MEMBER_NO");
+
+                    b.Property<string>("FULL_NAME")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("FULL_NAME");
 
-                    b.Property<string>("IdCard")
+                    b.Property<string>("ID_CARD")
                         .IsRequired()
                         .HasMaxLength(13)
-                        .HasColumnType("varchar(13)");
+                        .HasColumnType("varchar(13)")
+                        .HasColumnName("ID_CARD");
 
-                    b.Property<DateTime>("OpenDate")
+                    b.Property<DateTime>("OPEN_DATE")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("STATUS")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("STATUS");
 
-                    b.HasKey("MemberNo");
+                    b.HasKey("MEMBER_NO");
 
-                    b.ToTable("members");
-
-                    b.HasData(
-                        new
-                        {
-                            MemberNo = "M0001",
-                            AccountBalance = 5000m,
-                            FullName = "สมชาย ใจดี",
-                            IdCard = "1103700000011",
-                            OpenDate = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            MemberNo = "M0002",
-                            AccountBalance = 12000m,
-                            FullName = "สมหญิง ใจงาม",
-                            IdCard = "1103700000022",
-                            OpenDate = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            MemberNo = "M0003",
-                            AccountBalance = 3000m,
-                            FullName = "วิชัย รุ่งเรือง",
-                            IdCard = "1103700000033",
-                            OpenDate = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            MemberNo = "M0004",
-                            AccountBalance = 8000m,
-                            FullName = "สายฝน แสงดาว",
-                            IdCard = "1103700000044",
-                            OpenDate = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            MemberNo = "M0005",
-                            AccountBalance = 15000m,
-                            FullName = "มนตรี กล้าหาญ",
-                            IdCard = "1103700000055",
-                            OpenDate = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active"
-                        },
-                        new
-                        {
-                            MemberNo = "M0006",
-                            AccountBalance = 2000m,
-                            FullName = "จันทร์เพ็ญ สุขใจ",
-                            IdCard = "1103700000066",
-                            OpenDate = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active"
-                        });
-                });
-
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.Menu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Icon")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<int>("OrderNo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("RequiredRole")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("menus");
+                    b.ToTable("MEMBERMASTER");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Icon = "add",
-                            IsActive = true,
-                            Name = "ฝากเงิน",
-                            OrderNo = 1,
-                            Path = "Deposit",
-                            RequiredRole = "User",
-                            SortOrder = 0
+                            MEMBER_NO = "M001",
+                            FULL_NAME = "สมชาย ใจดี",
+                            ID_CARD = "1103700000011",
+                            OPEN_DATE = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            STATUS = "ACTIVE"
                         },
                         new
                         {
-                            Id = 2,
-                            Icon = "remove",
-                            IsActive = true,
-                            Name = "ถอนเงิน",
-                            OrderNo = 2,
-                            Path = "Withdraw",
-                            RequiredRole = "User",
-                            SortOrder = 0
+                            MEMBER_NO = "M002",
+                            FULL_NAME = "สมหญิง รวยดี",
+                            ID_CARD = "1103700000022",
+                            OPEN_DATE = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            STATUS = "ACTIVE"
                         },
                         new
                         {
-                            Id = 3,
-                            Icon = "list",
-                            IsActive = true,
-                            Name = "ประวัติ",
-                            OrderNo = 3,
-                            Path = "Transactions",
-                            RequiredRole = "User",
-                            SortOrder = 0
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Icon = "person",
-                            IsActive = true,
-                            Name = "ข้อมูลสมาชิก",
-                            OrderNo = 4,
-                            Path = "Members",
-                            RequiredRole = "User",
-                            SortOrder = 0
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Icon = "people",
-                            IsActive = true,
-                            Name = "จัดการผู้ใช้",
-                            OrderNo = 5,
-                            Path = "Users",
-                            RequiredRole = "Admin",
-                            SortOrder = 0
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Icon = "settings",
-                            IsActive = true,
-                            Name = "ตั้งค่าระบบ",
-                            OrderNo = 6,
-                            Path = "Settings",
-                            RequiredRole = "Admin",
-                            SortOrder = 0
+                            MEMBER_NO = "M003",
+                            FULL_NAME = "วิชัย ประหยัด",
+                            ID_CARD = "1103700000033",
+                            OPEN_DATE = new DateTime(2024, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            STATUS = "ACTIVE"
                         });
                 });
 
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.MenuRole", b =>
+            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.TRANSACTION", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MenuId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuId");
-
-                    b.ToTable("menu_roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            MenuId = 1,
-                            Role = "User"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            MenuId = 2,
-                            Role = "User"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            MenuId = 3,
-                            Role = "User"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            MenuId = 4,
-                            Role = "User"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            MenuId = 5,
-                            Role = "Admin"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            MenuId = 6,
-                            Role = "Admin"
-                        });
-                });
-
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.Transaction", b =>
-                {
-                    b.Property<string>("MemberNo")
+                    b.Property<string>("ACCOUNT_NO")
                         .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                        .HasColumnType("varchar(10)")
+                        .HasColumnName("ACCOUNT_NO");
 
-                    b.Property<int>("SeqNo")
-                        .HasColumnType("int");
+                    b.Property<int>("SEQ_NO")
+                        .HasColumnType("int")
+                        .HasColumnName("SEQ_NO");
 
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("AMOUNT")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("AMOUNT");
 
-                    b.Property<decimal>("BalanceAfter")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<decimal>("BALANCE_AFTER")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("BALANCE_AFTER");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CREATED_AT")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CREATED_AT");
 
-                    b.Property<string>("Remark")
-                        .HasColumnType("longtext");
+                    b.Property<string>("REMARK")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)")
+                        .HasColumnName("REMARK");
 
-                    b.Property<DateTime>("TransactionDate")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime>("TRANSACTION_DATE")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("TRANSACTION_DATE");
 
-                    b.Property<string>("TransactionType")
+                    b.Property<string>("TRANSACTION_TYPE")
                         .IsRequired()
                         .HasMaxLength(3)
-                        .HasColumnType("varchar(3)");
+                        .HasColumnType("varchar(3)")
+                        .HasColumnName("TRANSACTION_TYPE");
 
-                    b.Property<int?>("UsersId")
+                    b.Property<int?>("USERSID")
                         .HasColumnType("int");
 
-                    b.HasKey("MemberNo", "SeqNo");
+                    b.HasKey("ACCOUNT_NO", "SEQ_NO");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("USERSID");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("TRANSACTION");
 
                     b.HasData(
                         new
                         {
-                            MemberNo = "M0001",
-                            SeqNo = 1,
-                            Amount = 5000m,
-                            BalanceAfter = 5000m,
-                            CreatedAt = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "เปิดบัญชี",
-                            TransactionDate = new DateTime(2025, 1, 5, 9, 30, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "DEP"
+                            ACCOUNT_NO = "0000000001",
+                            SEQ_NO = 1,
+                            AMOUNT = 5000m,
+                            BALANCE_AFTER = 5000m,
+                            TRANSACTION_DATE = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TRANSACTION_TYPE = "DEP"
                         },
                         new
                         {
-                            MemberNo = "M0001",
-                            SeqNo = 2,
-                            Amount = 1000m,
-                            BalanceAfter = 4000m,
-                            CreatedAt = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ถอนเงิน",
-                            TransactionDate = new DateTime(2025, 1, 10, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "WDL"
+                            ACCOUNT_NO = "0000000002",
+                            SEQ_NO = 1,
+                            AMOUNT = 12000m,
+                            BALANCE_AFTER = 12000m,
+                            TRANSACTION_DATE = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TRANSACTION_TYPE = "DEP"
                         },
                         new
                         {
-                            MemberNo = "M0002",
-                            SeqNo = 1,
-                            Amount = 8000m,
-                            BalanceAfter = 8000m,
-                            CreatedAt = new DateTime(2025, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ฝากครั้งแรก",
-                            TransactionDate = new DateTime(2025, 1, 6, 10, 15, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "DEP"
-                        },
-                        new
-                        {
-                            MemberNo = "M0002",
-                            SeqNo = 2,
-                            Amount = 3000m,
-                            BalanceAfter = 5000m,
-                            CreatedAt = new DateTime(2025, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ถอนเงิน",
-                            TransactionDate = new DateTime(2025, 1, 12, 11, 45, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "WDL"
-                        },
-                        new
-                        {
-                            MemberNo = "M0003",
-                            SeqNo = 1,
-                            Amount = 12000m,
-                            BalanceAfter = 12000m,
-                            CreatedAt = new DateTime(2025, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "เปิดบัญชี",
-                            TransactionDate = new DateTime(2025, 1, 7, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "DEP"
-                        },
-                        new
-                        {
-                            MemberNo = "M0003",
-                            SeqNo = 2,
-                            Amount = 2000m,
-                            BalanceAfter = 10000m,
-                            CreatedAt = new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ถอนเงิน",
-                            TransactionDate = new DateTime(2025, 1, 15, 16, 20, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "WDL"
-                        },
-                        new
-                        {
-                            MemberNo = "M0004",
-                            SeqNo = 1,
-                            Amount = 3000m,
-                            BalanceAfter = 3000m,
-                            CreatedAt = new DateTime(2025, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ฝากเงิน",
-                            TransactionDate = new DateTime(2025, 1, 8, 13, 10, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "DEP"
-                        },
-                        new
-                        {
-                            MemberNo = "M0004",
-                            SeqNo = 2,
-                            Amount = 2000m,
-                            BalanceAfter = 5000m,
-                            CreatedAt = new DateTime(2025, 1, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ฝากเพิ่ม",
-                            TransactionDate = new DateTime(2025, 1, 18, 10, 5, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "DEP"
-                        },
-                        new
-                        {
-                            MemberNo = "M0005",
-                            SeqNo = 1,
-                            Amount = 15000m,
-                            BalanceAfter = 15000m,
-                            CreatedAt = new DateTime(2025, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "เปิดบัญชี",
-                            TransactionDate = new DateTime(2025, 1, 9, 9, 45, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "DEP"
-                        },
-                        new
-                        {
-                            MemberNo = "M0005",
-                            SeqNo = 2,
-                            Amount = 5000m,
-                            BalanceAfter = 10000m,
-                            CreatedAt = new DateTime(2025, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ถอนเงิน",
-                            TransactionDate = new DateTime(2025, 1, 20, 15, 30, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "WDL"
-                        },
-                        new
-                        {
-                            MemberNo = "M0006",
-                            SeqNo = 1,
-                            Amount = 4000m,
-                            BalanceAfter = 4000m,
-                            CreatedAt = new DateTime(2025, 1, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ฝากเงิน",
-                            TransactionDate = new DateTime(2025, 1, 11, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "DEP"
-                        },
-                        new
-                        {
-                            MemberNo = "M0006",
-                            SeqNo = 2,
-                            Amount = 1000m,
-                            BalanceAfter = 3000m,
-                            CreatedAt = new DateTime(2025, 1, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Remark = "ถอนเงิน",
-                            TransactionDate = new DateTime(2025, 1, 22, 14, 50, 0, 0, DateTimeKind.Unspecified),
-                            TransactionType = "WDL"
+                            ACCOUNT_NO = "0000000003",
+                            SEQ_NO = 1,
+                            AMOUNT = 3000m,
+                            BALANCE_AFTER = 3000m,
+                            TRANSACTION_DATE = new DateTime(2024, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            TRANSACTION_TYPE = "DEP"
                         });
                 });
 
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.Users", b =>
+            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.USERS", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateTime?>("CREATED_AT")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CREATED_AT");
 
-                    b.Property<string>("FullName")
+                    b.Property<string>("FULL_NAME")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("varchar(200)")
+                        .HasColumnName("FULL_NAME");
 
-                    b.Property<string>("PasswordHash")
+                    b.Property<string>("PASSWORD_HASH")
                         .IsRequired()
                         .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("PASSWORD_HASH");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("ROLE")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("ROLE");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("USERNAME")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("USERNAME");
 
-                    b.HasKey("Id");
+                    b.HasKey("ID");
 
-                    b.ToTable("users");
+                    b.ToTable("USERS");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "System Admin",
-                            PasswordHash = "$2a$11$1heyANQHqpa3hrQV9/3c9eVA0uS.yewrl8Bo7wjPnwqDix5sm3haO",
-                            Role = "Admin",
-                            Username = "admin"
+                            ID = 1,
+                            CREATED_AT = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FULL_NAME = "System Admin",
+                            PASSWORD_HASH = "$2a$11$3ozhA7tOFeQrgFDJtk5GBuQLO.NxRSKMWewa889QjyoGyL92oW90m",
+                            ROLE = "Admin",
+                            USERNAME = "admin"
                         },
                         new
                         {
-                            Id = 2,
-                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FullName = "Staff User",
-                            PasswordHash = "$2a$11$ueHqS0hMvFVv.hDaDUj05ut2YwsX3R9FToBM56QY6jrhZYVjlEnGK",
-                            Role = "Staff",
-                            Username = "staff"
+                            ID = 2,
+                            CREATED_AT = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FULL_NAME = "Staff User",
+                            PASSWORD_HASH = "$2a$11$vVNwQwIDX6cN53SuXhjSIOnFyCZRFKh3iJFkny8T6HMsbTdikVMDS",
+                            ROLE = "Staff",
+                            USERNAME = "staff"
                         });
                 });
 
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.MenuRole", b =>
+            modelBuilder.Entity("MiniCoop.Domain.Entities.DEPOSITMASTER", b =>
                 {
-                    b.HasOne("MiniCoop.Infrastructure.Entities.Menu", "Menu")
-                        .WithMany("MenuRoles")
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Menu");
-                });
-
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.Transaction", b =>
-                {
-                    b.HasOne("MiniCoop.Infrastructure.Entities.Member", "Member")
+                    b.HasOne("MiniCoop.Infrastructure.Entities.MEMBERMASTER", "MEMBER")
                         .WithMany()
-                        .HasForeignKey("MemberNo")
+                        .HasForeignKey("MEMBER_NO")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MiniCoop.Infrastructure.Entities.Users", null)
-                        .WithMany("Transactions")
-                        .HasForeignKey("UsersId");
-
-                    b.Navigation("Member");
+                    b.Navigation("MEMBER");
                 });
 
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.Menu", b =>
+            modelBuilder.Entity("MiniCoop.Domain.Entities.MENUGROUP", b =>
                 {
-                    b.Navigation("MenuRoles");
+                    b.HasOne("MiniCoop.Domain.Entities.APPLICATION", "APPLICATION")
+                        .WithMany("MenuGroups")
+                        .HasForeignKey("APPLICATION_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("APPLICATION");
                 });
 
-            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.Users", b =>
+            modelBuilder.Entity("MiniCoop.Domain.Entities.MENUS", b =>
                 {
-                    b.Navigation("Transactions");
+                    b.HasOne("MiniCoop.Domain.Entities.MENUGROUP", "MENUGROUP")
+                        .WithMany("Menus")
+                        .HasForeignKey("MENU_GROUP_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MENUGROUP");
+                });
+
+            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.TRANSACTION", b =>
+                {
+                    b.HasOne("MiniCoop.Domain.Entities.DEPOSITMASTER", "DEPOSITMASTER")
+                        .WithMany()
+                        .HasForeignKey("ACCOUNT_NO")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MiniCoop.Infrastructure.Entities.USERS", null)
+                        .WithMany("TRANSACTIONS")
+                        .HasForeignKey("USERSID");
+
+                    b.Navigation("DEPOSITMASTER");
+                });
+
+            modelBuilder.Entity("MiniCoop.Domain.Entities.APPLICATION", b =>
+                {
+                    b.Navigation("MenuGroups");
+                });
+
+            modelBuilder.Entity("MiniCoop.Domain.Entities.MENUGROUP", b =>
+                {
+                    b.Navigation("Menus");
+                });
+
+            modelBuilder.Entity("MiniCoop.Infrastructure.Entities.USERS", b =>
+                {
+                    b.Navigation("TRANSACTIONS");
                 });
 #pragma warning restore 612, 618
         }

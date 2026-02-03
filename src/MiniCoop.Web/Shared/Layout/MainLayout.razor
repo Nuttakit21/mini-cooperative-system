@@ -8,10 +8,10 @@
     <Authorized>
         <RadzenLayout>
             <RadzenHeader>
-                <Header OnToggle="@ToggleSidebar" />
+                <Header OnToggle="@ToggleSidebar" OnHome="@Home" />
             </RadzenHeader>
-            <RadzenSidebar @bind-Expanded="@isCollapsed">
-                <Sidebar />
+            <RadzenSidebar Style="@SidebarStyle">
+                <Sidebar Collapsed="@(!isSidebarExpanded)" />
             </RadzenSidebar>
             <RadzenBody>
                 <div id="top">

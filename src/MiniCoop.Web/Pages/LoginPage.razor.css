@@ -87,12 +87,12 @@
         font-size: 1.1rem;
     }
 
-.rz-textbox,
-.rz-password {
+::deep .rz-textbox,
+::deep .rz-password {
     width: 100% !important;
     height: 70px !important;
     border-radius: 20px !important;
-    background-color: #ffffff !important; 
+    background-color: #ffffff !important;
     border: 2px solid #94a3b8 !important;
     display: flex !important;
     align-items: center !important;
@@ -100,9 +100,9 @@
     transition: all 0.2s ease;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
 }
- 
-    .rz-textbox input,
-    .rz-password-input {
+
+    ::deep .rz-textbox input,
+    ::deep .rz-password-input {
         height: 100% !important;
         width: 100% !important;
         font-size: 2.2rem !important;
@@ -114,14 +114,14 @@
         font-family: 'Prompt', sans-serif !important;
     }
 
-.rz-state-focus {
+::deep .rz-state-focus {
     border-color: #2563eb !important;
     border-width: 3px !important;
     box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.2) !important;
     transform: translateY(-2px);
 }
 
-.btn-login {
+::deep .btn-login {
     width: 100%;
     height: 70px !important;
     border-radius: 20px !important;
@@ -134,7 +134,7 @@
     box-shadow: 0 10px 15px -3px rgba(29, 78, 216, 0.4);
 }
 
-    .btn-login:hover {
+    ::deep .btn-login:hover {
         background: #1e40af !important;
         transform: translateY(-2px);
     }

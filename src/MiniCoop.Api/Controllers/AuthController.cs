@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MiniCoop.Api.DTOs;
 using MiniCoop.Application.Auth;
+using MiniCoop.Application.DTOs.Login;
 
 namespace MiniCoop.Api.Controllers;
 
@@ -21,23 +21,23 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var user = await _db.Users
-            .FirstOrDefaultAsync(u => u.Username == request.Username);
+        var user = await _db.USERS
+            .FirstOrDefaultAsync(u => u.USERNAME == request.Username);
 
         if (user == null)
             return Unauthorized("Username หรือ Password ไม่ถูกต้อง");
 
-        var isValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
+        var isValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PASSWORD_HASH);
         if (!isValid)
             return Unauthorized("Password ไม่ถูกต้อง");
 
-        var token = _jwtTokenService.GenerateToken(user.Id, user.Username, user.Role);
+        var token = _jwtTokenService.GenerateToken(user.ID, user.USERNAME, user.ROLE);
 
         return Ok(new LoginResponse
         {
             Token = token,
-            FullName = user.FullName,
-            Role = user.Role
+            FullName = user.FULL_NAME,
+            Role = user.ROLE
         });
     }
 }

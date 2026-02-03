@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using MiniCoop.Web.Services;
+using MiniCoop.Web.State;
 using Radzen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,6 +70,11 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddScoped<NotificationService>();
+
+// =======================================
+// State
+// =======================================
+builder.Services.AddScoped<AppState>();
 
 var app = builder.Build();
 

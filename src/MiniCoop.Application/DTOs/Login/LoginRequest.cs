@@ -1,4 +1,4 @@
-﻿namespace MiniCoop.Api.DTOs
+﻿namespace MiniCoop.Application.DTOs.Login
 {
     public class LoginRequest
     {

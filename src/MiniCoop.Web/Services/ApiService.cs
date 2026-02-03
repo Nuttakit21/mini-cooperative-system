@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using MiniCoop.Web.Models.User;
 
 namespace MiniCoop.Web.Services
 {

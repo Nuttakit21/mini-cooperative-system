@@ -1,36 +1,51 @@
-﻿@page "/{Pagename}"
+﻿@page "/{App}"
+@page "/{App}/{Page}"
 @using System.Reflection
+@using MiniCoop.Web.State
+@inject AppState AppState
+@inject NavigationManager Nav
 
 @if (ComponentType != null)
 {
     <DynamicComponent Type="ComponentType" />
 }
-else
-{
-    <h3>ไม่พบหน้า</h3>
-}
 
 @code {
-    [Parameter] public string? Pagename { get; set; }
+    [Parameter] public string? App { get; set; }
+    [Parameter] public string? Page { get; set; }
 
     private Type? ComponentType;
 
     protected override void OnParametersSet()
     {
-        ComponentType = ResolveComponent(Pagename);
+        if (!string.IsNullOrWhiteSpace(App))
+        {
+            AppState.SetApp(App);
+        }
+
+        if (string.IsNullOrWhiteSpace(AppState.CurrentApp))
+        {
+            Nav.NavigateTo("/", true);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(Page))
+        {
+            ComponentType = null;
+            return;
+        }
+
+        ComponentType = ResolveComponent(App!, Page!);
     }
 
-    private Type? ResolveComponent(string? pageName)
+    private Type? ResolveComponent(string app, string page)
     {
-        if (string.IsNullOrWhiteSpace(pageName))
-            return null;
-
         var assembly = Assembly.GetExecutingAssembly();
 
-        var className =
-            char.ToUpper(pageName[0]) + pageName.Substring(1);
+        var appName = char.ToUpper(app[0]) + app.Substring(1);
+        var pageName = char.ToUpper(page[0]) + page.Substring(1);
 
-        var fullName = $"MiniCoop.Web.Pages.{className}";
+        var fullName = $"MiniCoop.Web.Pages.Applications.{appName}.{pageName}";
 
         return assembly.GetType(fullName);
     }

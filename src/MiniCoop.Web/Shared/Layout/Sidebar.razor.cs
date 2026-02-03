@@ -1,23 +1,55 @@
 using Microsoft.AspNetCore.Components;
+using MiniCoop.Application.DTOs.Menu;
 using MiniCoop.Web.Services;
+using MiniCoop.Web.State;
 
 namespace MiniCoop.Web.Shared.Layout
 {
-    public partial class Sidebar
+    public partial class Sidebar : IDisposable
     {
+        [Inject] public AppState AppState { get; set; } = null!;
+        [Inject] public ApiService Api { get; set; } = null!;
+
         [Parameter] public bool Collapsed { get; set; }
-        [Inject] public ApiService ApiService { get; set; } = null!;
 
-        protected List<MenuDto> Menus = new();
-
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            var result = await ApiService.GetAsync<List<MenuDto>>("api/menus/by-role");
-
-            if (result != null)
+            AppState.OnAppChanged += LoadMenus;
+            if (!string.IsNullOrWhiteSpace(AppState.CurrentApp))
             {
-                Menus = result;
+                LoadMenus();
             }
+        }
+
+        private async void LoadMenus()
+        {
+            if (string.IsNullOrWhiteSpace(AppState.CurrentApp))
+                return;
+
+            var menus = await Api.GetAsync<List<MenuGroupDto>>($"api/menu/{AppState.CurrentApp}");
+
+            if (menus != null)
+                AppState.SetMenus(menus);
+
+            await InvokeAsync(StateHasChanged);
+        }
+
+        private string activeGroupName = "";
+
+        private void ToggleGroup(string groupName)
+        {
+            // ถ้า Sidebar หดอยู่ ไม่ต้องทำ Accordion (ให้โชว์แค่ไอคอน)
+            if (Collapsed) return;
+
+            if (activeGroupName == groupName)
+                activeGroupName = ""; // กดซ้ำเพื่อปิด
+            else
+                activeGroupName = groupName; // เปิดกลุ่มใหม่ ปิดกลุ่มเก่าอัตโนมัติ
+        }
+
+        public void Dispose()
+        {
+            AppState.OnAppChanged -= LoadMenus;
         }
     }
 }

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Microsoft.JSInterop;
 using MiniCoop.Web.Services;
+using MiniCoop.Web.State;
 using Radzen;
 using Radzen.Blazor;
 using System.Security.Claims;
@@ -11,12 +13,15 @@ namespace MiniCoop.Web.Shared.Layout
     public partial class Header : IDisposable
     {
         [Parameter] public EventCallback OnToggle { get; set; }
+        [Parameter] public EventCallback OnHome { get; set; }
 
+        [Inject] AppState AppState { get; set; } = null!;
         [Inject] ProtectedLocalStorage LocalStorage { get; set; } = default!;
         [Inject] AuthenticationStateProvider AuthState { get; set; } = default!;
         [Inject] CustomAuthStateProvider CustomAuthState { get; set; } = default!;
-        [Inject] NavigationManager Navigation { get; set; } = default!;
+        [Inject] NavigationManager Nav { get; set; } = default!;
         [Inject] NotificationService Notification { get; set; } = default!;
+        [Inject] IJSRuntime JS { get; set; } = null!;
 
         protected string User_name = "";
         protected string Role = "";
@@ -63,6 +68,11 @@ namespace MiniCoop.Web.Shared.Layout
             await OnToggle.InvokeAsync();
         }
 
+        async Task Home()
+        {
+            await OnHome.InvokeAsync();
+        }
+
         public async Task MenuClick(RadzenProfileMenuItem item)
         {
             if (item.Value?.ToString() == "LogOff")
@@ -73,8 +83,13 @@ namespace MiniCoop.Web.Shared.Layout
 
         public async Task LogOff()
         {
-            await CustomAuthState.Logout();
-            Navigation.NavigateTo("/login", true);
+            AppState.ResetApp();
+
+            await JS.InvokeVoidAsync("appState.clear");
+
+            await CustomAuthState.Logout();            
+
+            Nav.NavigateTo("/login", true);
         }
 
         public void Dispose()
